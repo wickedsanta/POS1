@@ -1,6 +1,4 @@
 // Weather Station & Power Monitor
-// Chris Wicks 2011/12
-// Oregon decoder by Dominique Pierre at JeeLabs (thanks for all his support and help).
 
 #include <SdFat.h>
 #include <Ethernet.h>
