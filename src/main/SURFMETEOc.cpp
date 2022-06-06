@@ -49,10 +49,12 @@ lastDirValue = 0;
 rotations = 0;
 isSampleRequired = false;
 
+// setup water temp sensor
+  
+  
 // setup timer values
 timerCount = 0;
-
-
+  
 
 // start the Ethernet connection and server
 Ethernet.begin(mac, ip);
