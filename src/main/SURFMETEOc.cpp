@@ -2,11 +2,12 @@
 #include <Ethernet.h>
 #include "TimerOne.h"
 #include <math.h>
-#include "BME280I2C.h"
+#include "BME680.h"
 
 #define Bucket_Size 0.01 // bucket size to trigger tip count
 #define RG11_Pin 3 // digital pin RG11 connected to
 #define TX_Pin 8 // used to indicate web data tx
+#define WaterSensor_Pin (A5) // analog pin for water temperature sensor
 
 #define WindSensor_Pin (2) // digital pin for wind speed sensor
 #define WindVane_Pin (A2) // analog pin for wind direction sensor
@@ -28,7 +29,7 @@ int vaneDirection; // translated 0 - 360 wind direction
 int calDirection; // calibrated direction after offset applied
 int lastDirValue; // last recorded direction value
 
-BME280I2C bme; // I2C using address 0x77
+BME680 bme; // I2C using address 0x77
 
 // Here we setup the web server. We are using a static ip address and a mac address
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
@@ -43,7 +44,7 @@ void setup() {
 tipCount = 0;
 totalRainfall = 0;
 
-// setup anemometer values
+// setup wind sensor values
 lastDirValue = 0;
 rotations = 0;
 isSampleRequired = false;
@@ -63,7 +64,7 @@ Serial.begin(9600)
 Serial.println("BME Temp\tPressure\tRainfall\tSpeed\tDirection");
 
 if (!bme.begin()) {
-Serial.println("Could not find BME280 sensor, check wiring");
+Serial.println("Could not find BME680 sensor, check wiring");
 while (1);
 }
 pinMode(TX_Pin, OUTPUT);
