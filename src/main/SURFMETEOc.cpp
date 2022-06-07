@@ -3,6 +3,7 @@
 #include "TimerOne.h"
 #include <math.h>
 #include "BME680.h"
+#include "onewire.h"
 
 #define RG11_Pin 3 // digital pin RG11 connected to
 #define TX_Pin 8 // used to indicate web data tx
@@ -62,7 +63,7 @@ isSampleRequired = false;
   delay(1000);     // maybe 750ms is enough, maybe not
   // we might do a ds.depower() here, but the reset will take care of it.
   
-  present = ds.reset();
+  present = ds.reset(A5); //reading analog sensor
   ds.select(addr);    
   ds.write(0xBE);         // Read Scratchpad
  
@@ -70,7 +71,7 @@ isSampleRequired = false;
   Serial.print(present, HEX);
   Serial.print(" ");
   for ( i = 0; i < 9; i++) {           // we need 9 bytes
-    data[i] = ds.read();
+    data[i] = ds.read(); //typing analog to the date vector
     Serial.print(data[i], HEX);
     Serial.print(" ");
   }
