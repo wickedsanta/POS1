@@ -1,0 +1,24 @@
+- SPI.h - biblioteka ta pozwala na komunikację z urządzeniami SPI, z
+Arduino jako urządzeniem nadrzędnym.
+- Ethernet.h - umożliwia połączenie sieciowe (lokalne i internetowe) przy
+użyciu Arduino Ethernet Board lub Shield. Dzięki tej bibliotece możesz
+używać Arduino Ethernet (shield lub board) do łączenia się z
+Internetem. Biblioteka udostępnia zarówno funkcjonalność klienta jak i
+serwera. Biblioteka pozwala na podłączenie do sieci lokalnej również z
+DHCP oraz rozwiązywanie DNS.
+- TimerOne.h - biblioteka służąca do użycia sprzętowego timeru do
+dokładniejszego sterowania PWM ( modulacja szerokością impulsu)
+lub do uruchomienia funkcji okresowego przerywania,
+- math.h - biblioteka matematyczna, umożliwiająca wykonywanie
+bardziej skomplikowanych działań matematycznych,
+- BME680.h - odpowiada za czujnik BME680 oraz jego komunikacje
+poprzez I2C z Arduino.
+
+
+Hydreon RG-11 - jest bezobsługowym optycznym czujnikiem deszczu,
+który może być używany w wielu różnych zastosowaniach związanych z
+monitorowaniem i kontrolą opadów.
+BME680 - prosty w użyciu czujnik temperatury, wilgotności, ciśnienia oraz gazu,
+zasilany napięciem od 3,3 V do 5 V. Komunikuje się poprzez interfejs I2C lub SPI.
+Czujnik charakteryzuje się wysoką dokładnością pomiaru i liniowością odwzorowania.
+Arduino® Mega 2560 R3 - 
