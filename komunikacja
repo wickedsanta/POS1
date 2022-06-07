@@ -13,6 +13,8 @@ lub do uruchomienia funkcji okresowego przerywania,
 bardziej skomplikowanych działań matematycznych,
 - BME680.h - odpowiada za czujnik BME680 oraz jego komunikacje
 poprzez I2C z Arduino.
+- Onewire.h - umożliwia dostęp do urządzeń 1-przewodowych firmy Maxim/Dallas, 
+takich jak czujniki temperatury.
 
 
 Hydreon RG-11 - jest bezobsługowym optycznym czujnikiem deszczu,
@@ -21,4 +23,18 @@ monitorowaniem i kontrolą opadów.
 BME680 - prosty w użyciu czujnik temperatury, wilgotności, ciśnienia oraz gazu,
 zasilany napięciem od 3,3 V do 5 V. Komunikuje się poprzez interfejs I2C lub SPI.
 Czujnik charakteryzuje się wysoką dokładnością pomiaru i liniowością odwzorowania.
-Arduino® Mega 2560 R3 - 
+Arduino® Mega 2560 R3 - jest płytką w 100% kompatybilną z Arduino. Zawiera 
+mikrokontroler ATmega2560. Do zasilania można wykorzystać  dowolny zasilacz o 
+napięciu od 7 V do 12 V. Płytka Arduino MEGA została skonstruowana 
+specjalnie z myślą o rozbudowanych projektach urządzeń.
+Sonda wodoodporna z czujnikiem temperatury DS18B20 - Okystar - wysokiej jakości sonda 
+z czujnikiem temperatury DS18B20, zamknięta w szczelnej i wodoodpornej obudowie wykonanej 
+ze stali nierdzewnej. Sonda zasilana jest napięciem od 3 V do 5,5 V. Pracuje w temperaturze 
+od -55°C do 125°C. Czujnik komunikuje się za pomocą interfejsu jednoprzewodowego 1-Wire 
+(Do poprawnego odczytu temperatury wymagane jest zastosowanie rezystora 
+4.7kΩ podłączonego pomiędzy zasilaniem, a przewodem sygnałowym.)
+BleBox windSensor - Czujnik umożliwiający pomiar wiatru w zakresie od 0 m/s do 30 m/s. 
+BleBox windSensor przeznaczony jest do użytku z czujnikiem BleBox wind&rainSensor 
+(Przystawka umożliwiająca podłączenie czujników prędkości wiatru i deszczu. 
+Za jej pomocą możliwe jest zdalne monitorowanie pomiarów z czujników poprzez sieć WiFi).
+
