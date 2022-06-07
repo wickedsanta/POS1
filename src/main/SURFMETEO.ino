@@ -2,11 +2,12 @@
 #include <Ethernet.h>
 #include "TimerOne.h"
 #include <math.h>
-#include "BME280I2C.h"
+#include "BME680.h"
+#include "onewire.h"
 
-#define Bucket_Size 0.01 // bucket size to trigger tip count
 #define RG11_Pin 3 // digital pin RG11 connected to
 #define TX_Pin 8 // used to indicate web data tx
+#define WaterSensor_Pin (A5) // analog pin for water temperature sensor
 
 #define WindSensor_Pin (2) // digital pin for wind speed sensor
 #define WindVane_Pin (A2) // analog pin for wind direction sensor
@@ -28,7 +29,7 @@ int vaneDirection; // translated 0 - 360 wind direction
 int calDirection; // calibrated direction after offset applied
 int lastDirValue; // last recorded direction value
 
-BME280I2C bme; // I2C using address 0x77
+BME680 bme; // I2C using address 0x77
 
 // Here we setup the web server. We are using a static ip address and a mac address
 byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
@@ -43,15 +44,64 @@ void setup() {
 tipCount = 0;
 totalRainfall = 0;
 
-// setup anemometer values
+// setup wind sensor values
 lastDirValue = 0;
 rotations = 0;
 isSampleRequired = false;
 
+// setup water temp sensor
+  byte i;
+  byte present = 0;
+  byte type_s;
+  byte data[12];
+  byte addr[8];
+  float celsiusWATER;
+  ds.reset();
+  ds.select(addr);
+  ds.write(0x44, 1);        // start conversion, with parasite power on at the end
+  
+  delay(1000);     // maybe 750ms is enough, maybe not
+  // we might do a ds.depower() here, but the reset will take care of it.
+  
+  present = ds.reset(A5); //reading analog sensor
+  ds.select(addr);    
+  ds.write(0xBE);         // Read Scratchpad
+ 
+  Serial.print("  Data = ");
+  Serial.print(present, HEX);
+  Serial.print(" ");
+  for ( i = 0; i < 9; i++) {           // we need 9 bytes
+    data[i] = ds.read(); //typing analog to the date vector
+    Serial.print(data[i], HEX);
+    Serial.print(" ");
+  }
+  Serial.print(" CRC=");
+  Serial.print(OneWire::crc8(data, 8), HEX);
+  Serial.println();
+ 
+  // Convert the data to actual temperature
+  // because the result is a 16 bit signed integer, it should
+  // be stored to an "int16_t" type, which is always 16 bits
+  // even when compiled on a 32 bit processor.
+  int16_t raw = (data[1] << 8) | data[0];
+  if (type_s) {
+    raw = raw << 3; // 9 bit resolution default
+    if (data[7] == 0x10) {
+      // "count remain" gives full 12 bit resolution
+      raw = (raw & 0xFFF0) + 12 - data[6];
+    }
+  } else {
+    byte cfg = (data[4] & 0x60);
+    // at lower res, the low bits are undefined, so let's zero them
+    if (cfg == 0x00) raw = raw & ~7;  // 9 bit resolution, 93.75 ms
+    else if (cfg == 0x20) raw = raw & ~3; // 10 bit res, 187.5 ms
+    else if (cfg == 0x40) raw = raw & ~1; // 11 bit res, 375 ms
+    //// default is 12 bit resolution, 750 ms conversion time
+  }
+  celsiusWATER = (float)raw / 16.0;  
 // setup timer values
 timerCount = 0;
-
-
+  
 
 // start the Ethernet connection and server
 Ethernet.begin(mac, ip);
@@ -63,7 +113,7 @@ Serial.begin(9600)
 Serial.println("BME Temp\tPressure\tRainfall\tSpeed\tDirection");
 
 if (!bme.begin()) {
-Serial.println("Could not find BME280 sensor, check wiring");
+Serial.println("Could not find BME680 sensor, check wiring");
 while (1);
 }
 pinMode(TX_Pin, OUTPUT);
@@ -105,6 +155,9 @@ client.println("<html><body>");
 digitalWrite(TX_Pin,HIGH); // Turn the TX LED on
 client.print("<span style=\"font-size: 26px\";><br>  Temperatura: ");
 client.print(ds.getTemperature_C());
+client.println(" °C<br>");
+client.print("<span style=\"font-size: 26px\";><br>  Temperatura wody: ");
+client.print(ds.getTemperature_C_w());
 client.println(" °C<br>");
 client.print("%<br>  Cisnienie: ");
 client.print(bme.getPressure_MB());
