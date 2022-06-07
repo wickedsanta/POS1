@@ -38,3 +38,18 @@ BleBox windSensor przeznaczony jest do użytku z czujnikiem BleBox wind&rainSens
 (Przystawka umożliwiająca podłączenie czujników prędkości wiatru i deszczu. 
 Za jej pomocą możliwe jest zdalne monitorowanie pomiarów z czujników poprzez sieć WiFi).
 
+Testy funkcjonalne
+Testy które chcielibyśmy przeprowadzić jako zespół, zakładając posiadanie
+odpowiednich części do złożenia gotowego projektu to :
+- Testy automatyczne oprogramowania zbierającego i wysyłającego dane;
+- Testy modułu sterowania, sprawdzanie poprawności odczytów, sprawdzanie
+poprawności działania systemu w przypadku uszkodzenia jednego/dwóch
+sensorów (dla większej skali uszkodzeń testy nie mają sensu, ponieważ w
+takim wypadku system traci niemal całą funkcjonalność);
+b. Testy pozafunkcjonalne
+- Testy obciążeniowe i wydajnościowe - przeprowadzane w warunkach
+ekstremalnych (burze, silne pole elektromagnetyczne, grad, bardzo silny
+wiatr);
+- Testy kompatybilności - testy kompletnego systemu na docelowym serwerze
+z różnymi przeglądarkami.
+
