@@ -157,7 +157,7 @@ client.print("<span style=\"font-size: 26px\";><br>  Temperatura: ");
 client.print(ds.getTemperature_C());
 client.println(" °C<br>");
 client.print("<span style=\"font-size: 26px\";><br>  Temperatura wody: ");
-client.print(ds.getTemperature_C_w());
+client.print(celsiusWATER);
 client.println(" °C<br>");
 client.print("%<br>  Cisnienie: ");
 client.print(bme.getPressure_MB());
